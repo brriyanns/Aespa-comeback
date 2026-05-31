@@ -4,125 +4,538 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aespa LEMONADE Comeback Room</title>
-  <meta name="description" content="A small comeback appreciation room for aespa's LEMONADE era." />
+  <meta name="description" content="A small comeback appreciation room for aespa's LEMONADE era, made with love by @chiffuyu." />
 
-  <!-- Twitter / X Preview Card -->
+  <!-- X / Twitter Preview -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="aespa LEMONADE Comeback Room" />
   <meta name="twitter:description" content="A small comeback appreciation room for aespa's LEMONADE era." />
-  <meta name="twitter:image" content="assets/Preview.jpg" />
+  <meta name="twitter:image" content="https://brriyanns.github.io/Aespa-comeback/assets/Preview.jpg" />
 
   <!-- Open Graph Preview -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://brriyanns.github.io/Aespa-comeback/" />
   <meta property="og:title" content="aespa LEMONADE Comeback Room" />
   <meta property="og:description" content="A small comeback appreciation room for aespa's LEMONADE era." />
-  <meta property="og:image" content="assets/Preview.jpg" />
+  <meta property="og:image" content="https://brriyanns.github.io/Aespa-comeback/assets/Preview.jpg" />
+  <meta property="og:image:secure_url" content="https://brriyanns.github.io/Aespa-comeback/assets/Preview.jpg" />
 
   <link rel="preload" as="image" href="assets/Background.jpg" />
   <link rel="preload" as="image" href="assets/Preview.jpg" />
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --bg: #061006;
+      --lime: #d7ff18;
+      --lime-soft: rgba(215, 255, 24, 0.18);
+      --text: #f5ffe9;
+      --muted: rgba(245, 255, 233, 0.72);
+      --line: rgba(215, 255, 24, 0.22);
+      --glass: rgba(0, 0, 0, 0.48);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(215,255,24,.22), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(40,255,170,.13), transparent 30%),
+        linear-gradient(180deg, #030803 0%, var(--bg) 48%, #020502 100%);
+      overflow-x: hidden;
+      padding-bottom: 78px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        radial-gradient(rgba(215,255,24,.65) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 18px 18px, 42px 42px, 42px 42px;
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(120deg, transparent, rgba(215,255,24,.05), transparent 58%);
+      z-index: 0;
+    }
+
+    a { color: inherit; }
+
+    .site {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      width: min(980px, 100%);
+      margin: 0 auto 18px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(0,0,0,.52);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(245,255,233,.78);
+      white-space: nowrap;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--lime);
+      box-shadow: 0 0 22px var(--lime);
+    }
+
+    .nav {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      justify-content: flex-end;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav button, .main-btn, .ghost-btn {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      white-space: nowrap;
+    }
+
+    .nav button {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: rgba(245,255,233,.7);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .nav button.active { background: var(--lime); color: #061006; }
+
+    .section {
+      min-height: calc(100vh - 112px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 0 32px;
+      animation: fadeUp .55s ease both;
+    }
+    .section.active { display: flex; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: .92fr 1fr;
+      align-items: center;
+      gap: clamp(22px, 5vw, 56px);
+      width: 100%;
+    }
+
+    .poster-shell {
+      position: relative;
+      width: min(430px, 100%);
+      margin: 0 auto;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background: rgba(215,255,24,.06);
+      box-shadow: 0 0 60px rgba(215,255,24,.16), 0 30px 80px rgba(0,0,0,.42);
+      overflow: hidden;
+    }
+    .poster-shell::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 180deg, transparent, rgba(215,255,24,.22), transparent, rgba(31,255,161,.16), transparent);
+      animation: spin 11s linear infinite;
+      opacity: .65;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .poster {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 27px;
+      background: #111;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(215,255,24,.1);
+      color: rgba(245,255,233,.85);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .big-title {
+      margin: 18px 0 0;
+      font-size: clamp(54px, 10vw, 116px);
+      line-height: .84;
+      letter-spacing: -.075em;
+      text-transform: uppercase;
+      text-shadow: 0 0 34px rgba(215,255,24,.18);
+    }
+
+    .gradient-word {
+      display: block;
+      color: var(--lime);
+      filter: drop-shadow(0 0 24px rgba(215,255,24,.35));
+    }
+
+    .lead {
+      max-width: 560px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: clamp(15px, 2.2vw, 18px);
+      line-height: 1.85;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .main-btn, .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .main-btn { background: var(--lime); color: #061006; box-shadow: 0 16px 36px rgba(215,255,24,.20); }
+    .ghost-btn { border: 1px solid var(--line); background: rgba(255,255,255,.08); color: var(--text); }
+    .main-btn:active, .ghost-btn:active { transform: scale(.98); }
+
+    .note-card {
+      position: relative;
+      width: min(760px, 100%);
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 34px;
+      background: linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      box-shadow: 0 30px 90px rgba(0,0,0,.48);
+      overflow: hidden;
+      backdrop-filter: blur(22px);
+    }
+    .note-card::before {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -95px;
+      top: -95px;
+      border-radius: 999px;
+      background: rgba(215,255,24,.18);
+      filter: blur(24px);
+    }
+    .note-card::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      left: -120px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(39,255,170,.12);
+      filter: blur(26px);
+    }
+
+    .note-inner { position: relative; z-index: 2; }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: rgba(215,255,24,.78);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+    .note-title {
+      margin: 0;
+      font-size: clamp(33px, 6vw, 60px);
+      line-height: .95;
+      letter-spacing: -.055em;
+    }
+    .note-text {
+      margin: 24px 0 0;
+      color: rgba(245,255,233,.84);
+      font-size: clamp(15.5px, 2.4vw, 18px);
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+
+    .video-wrap {
+      width: min(980px, 100%);
+      text-align: center;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .video-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(0,0,0,.45);
+      box-shadow: 0 28px 80px rgba(0,0,0,.42);
+    }
+    .video-card iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      background: #000;
+    }
+    .video-info { padding: 16px; text-align: left; }
+    .video-info p { margin: 0; color: rgba(215,255,24,.72); font-size: 11px; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; }
+    .video-info h3 { margin: 5px 0 0; font-size: 18px; }
+
+    .bottom-controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .watermark {
+      position: fixed;
+      left: 50%;
+      bottom: 9px;
+      transform: translateX(-50%);
+      z-index: 40;
+      width: min(920px, calc(100% - 16px));
+      padding: 8px 12px;
+      border: 1px solid rgba(215,255,24,.22);
+      border-radius: 999px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(18px);
+      color: rgba(245,255,233,.72);
+      font-size: 10px;
+      line-height: 1.45;
+      text-align: center;
+      box-shadow: 0 18px 54px rgba(0,0,0,.45);
+    }
+    .watermark a {
+      color: var(--lime);
+      font-weight: 900;
+      text-decoration: underline;
+      text-decoration-color: rgba(215,255,24,.35);
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 780px) {
+      .site { padding: 12px; }
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+        border-radius: 24px;
+      }
+      .brand { justify-content: center; }
+      .nav { justify-content: flex-start; padding-bottom: 1px; }
+      .section { min-height: calc(100vh - 146px); padding: 18px 0 28px; }
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .poster-shell { max-width: 360px; }
+      .lead { margin-left: auto; margin-right: auto; }
+      .actions { justify-content: center; }
+      .note-card { border-radius: 28px; }
+      .watermark { border-radius: 18px; font-size: 9.5px; }
+    }
+
+    @media (max-width: 420px) {
+      .poster-shell { max-width: 318px; }
+      .main-btn, .ghost-btn { width: 100%; }
+      .big-title { font-size: 52px; }
+      .kicker { font-size: 9.5px; letter-spacing: .16em; }
+    }
+  </style>
 </head>
 <body>
-  <div class="noise"></div>
-  <div class="scanlines"></div>
-  <div class="glow glow-one"></div>
-  <div class="glow glow-two"></div>
+  <main class="site">
+    <header class="topbar">
+      <div class="brand"><span class="brand-dot"></span> aespa comeback room</div>
+      <nav class="nav" aria-label="Page navigation">
+        <button class="active" data-go="0">Opening</button>
+        <button data-go="1">Note</button>
+        <button data-go="2">Concept</button>
+        <button data-go="3">Hope</button>
+        <button data-go="4">Album</button>
+      </nav>
+    </header>
 
-  <main class="site-shell">
-    <section class="page hero-page is-active" data-page="0">
+    <section class="section active" data-page="0">
       <div class="hero-grid">
-        <div class="poster-card">
-          <img src="assets/Background.jpg" alt="aespa LEMONADE comeback poster by @chiffuyu" />
-          <div class="poster-shine"></div>
+        <div class="poster-shell">
+          <img class="poster" src="assets/Background.jpg" alt="aespa LEMONADE comeback poster by @chiffuyu" />
         </div>
-
         <div class="hero-copy">
-          <p class="kicker">aespa comeback</p>
-          <h1>LEMONADE<br><span>ROOM</span></h1>
-          <p class="hero-desc">
-            A small appreciation page for aespa’s comeback, made with neon green, glossy cyber-pop energy, and a simple message for this era.
-          </p>
-          <div class="hero-actions">
-            <button class="primary-btn" type="button" data-next>Open the room</button>
+          <div class="kicker">LEMONADE FILE / 2026</div>
+          <h1 class="big-title">LEMONADE <span class="gradient-word">ROOM</span></h1>
+          <p class="lead">A small comeback appreciation page for aespa’s LEMONADE era. Bright, glossy, cyber-green, and made with a simple message, a little hope, and a lot of love.</p>
+          <div class="actions">
+            <button class="main-btn" data-next>Open the note</button>
             <a class="ghost-btn" href="https://x.com/chiffuyu" target="_blank" rel="noreferrer">@chiffuyu</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="page note-page" data-page="1">
-      <article class="glass-card">
-        <p class="kicker">comeback note</p>
-        <h2>Congratulations, aespa</h2>
-        <p>
-          Congratulations on your comeback, aespa. This LEMONADE era feels bright, fresh, colorful, and confident, while still keeping the strong identity that makes aespa stand out.
-        </p>
-        <p>
-          I love how the concept feels playful, glossy, and bold at the same time, like a new flavor without losing the energy that belongs to you. I really like this comeback, and I hope this era brings more love, more recognition, more beautiful stages, and more proud moments for aespa.
-        </p>
-      </article>
-    </section>
+    <section class="section" data-page="1">
+      <article class="note-card">
+        <div class="note-inner">
+          <p class="eyebrow">comeback note</p>
+          <h2 class="note-title">Congratulations, aespa.</h2>
+          <p class="note-text">Congratulations on your comeback, aespa.
 
-    <section class="page note-page" data-page="2">
-      <article class="glass-card">
-        <p class="kicker">concept note</p>
-        <h2>Why I love this era</h2>
-        <p>
-          What I love about this comeback is how it feels different, but still very aespa. The neon colors, the retro-futuristic mood, the sharp styling, and the bright LEMONADE feeling make this era look refreshing without becoming too soft.
-        </p>
-        <p>
-          It feels fun, confident, and experimental, but still powerful enough to remind everyone why aespa has always had their own world.
-        </p>
-      </article>
-    </section>
+This LEMONADE era feels bright, fresh, colorful, and confident, while still keeping the strong identity that makes aespa stand out. I love how the concept feels playful, glossy, and bold at the same time, like a new flavor without losing the energy that belongs to you.
 
-    <section class="page note-page" data-page="3">
-      <article class="glass-card">
-        <p class="kicker">my hope</p>
-        <h2>For this era</h2>
-        <p>
-          My hope for this era is simple: may LEMONADE become a beautiful chapter for aespa.
-        </p>
-        <p>
-          May every stage feel exciting, every result feel worth the hard work, and every moment bring more people to appreciate the color, talent, and presence that aespa keeps giving. I hope this comeback shines loudly and stays memorable for a long time.
-        </p>
-      </article>
-    </section>
-
-    <section class="page video-page" data-page="4">
-      <div class="video-wrap">
-        <p class="kicker">album playlist</p>
-        <h2>LEMONADE full album</h2>
-        <p class="video-desc">
-          A video folder for the full comeback album playlist, so the room feels complete with the sound of the era.
-        </p>
-
-        <div class="video-card">
-          <iframe
-            src="https://www.youtube.com/embed/videoseries?list=PLinm7-cvTdN6607WtZtYAnsA8DIs6xX6C"
-            title="aespa LEMONADE full album playlist"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
+I really like this comeback, and I hope this era brings more love, more recognition, more beautiful stages, and more proud moments for aespa.</p>
         </div>
+      </article>
+    </section>
 
-        <a class="playlist-link" href="https://youtube.com/playlist?list=PLinm7-cvTdN6607WtZtYAnsA8DIs6xX6C" target="_blank" rel="noreferrer">
-          Open playlist on YouTube
-        </a>
+    <section class="section" data-page="2">
+      <article class="note-card">
+        <div class="note-inner">
+          <p class="eyebrow">concept note</p>
+          <h2 class="note-title">Why I love this era.</h2>
+          <p class="note-text">What I love about this comeback is how it feels different, but still very aespa. The neon colors, the retro-futuristic mood, the sharp styling, and the bright LEMONADE feeling make this era look refreshing without becoming too soft.
+
+It feels fun, confident, and experimental, but still powerful enough to remind everyone why aespa has always had their own world.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" data-page="3">
+      <article class="note-card">
+        <div class="note-inner">
+          <p class="eyebrow">my hope</p>
+          <h2 class="note-title">For this era.</h2>
+          <p class="note-text">My hope for this era is simple: may LEMONADE become a beautiful chapter for aespa.
+
+May every stage feel exciting, every result feel worth the hard work, and every moment bring more people to appreciate the color, talent, and presence that aespa keeps giving. I hope this comeback shines loudly and stays memorable for a long time.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" data-page="4">
+      <div class="video-wrap">
+        <p class="eyebrow">album folder</p>
+        <h2 class="note-title">LEMONADE full album.</h2>
+        <p class="lead">A little video folder for the comeback playlist, made to keep the sound and the mood of this era close.</p>
+        <div class="video-grid">
+          <article class="video-card">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PLinm7-cvTdN6607WtZtYAnsA8DIs6xX6C"
+              title="aespa LEMONADE full album playlist"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"></iframe>
+            <div class="video-info">
+              <p>youtube playlist</p>
+              <h3>LEMONADE comeback album</h3>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <nav class="controls" aria-label="Page controls">
-      <button type="button" class="control-btn" data-prev>Back</button>
-      <div class="dots" aria-label="Page indicators"></div>
-      <button type="button" class="control-btn is-bright" data-next>Next</button>
-    </nav>
+    <div class="bottom-controls">
+      <button class="ghost-btn" data-prev>Back</button>
+      <button class="main-btn" data-next>Next file</button>
+    </div>
   </main>
 
   <footer class="watermark">
     All rights reserved <a href="https://x.com/chiffuyu" target="_blank" rel="noreferrer">@chiffuyu</a>. Any unauthorized use or copying of this edit/layout is strictly prohibited.
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const pages = Array.from(document.querySelectorAll('[data-page]'));
+    const navButtons = Array.from(document.querySelectorAll('[data-go]'));
+    const nextButtons = Array.from(document.querySelectorAll('[data-next]'));
+    const prevButtons = Array.from(document.querySelectorAll('[data-prev]'));
+    let current = 0;
+
+    function showPage(index) {
+      current = (index + pages.length) % pages.length;
+      pages.forEach((page, pageIndex) => page.classList.toggle('active', pageIndex === current));
+      navButtons.forEach((button, buttonIndex) => button.classList.toggle('active', buttonIndex === current));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener('click', () => showPage(Number(button.dataset.go)));
+    });
+
+    nextButtons.forEach((button) => {
+      button.addEventListener('click', () => showPage(current + 1));
+    });
+
+    prevButtons.forEach((button) => {
+      button.addEventListener('click', () => showPage(current - 1));
+    });
+  </script>
 </body>
 </html>
